@@ -24,6 +24,7 @@ color_s     convert_color_to24(uint16_t color);
 uint8_t*    bmpc_init(bmpc_screen_s *obj,char * name,uint16_t width,uint16_t hight);
 void        bmpc_draw_pixel(bmpc_screen_s *obj,uint16_t x,uint16_t y,uint16_t color);
 uint16_t    bmcp_read_pixel(bmpc_screen_s *obj,uint16_t x,uint16_t y);
+void        bmpc_fill_rect(bmpc_screen_s *obj,int16_t x, int16_t y, int16_t w, int16_t h,uint16_t color);
 
 void        bmpc_update(bmpc_screen_s *obj);
 void        bmpc_free(bmpc_screen_s *obj);

@@ -85,6 +85,22 @@ uint16_t bmcp_read_pixel(bmpc_screen_s *obj,uint16_t x,uint16_t y)
     return convert_color_to16(c);
 }
 
+void bmpc_fill_rect(bmpc_screen_s *obj,int16_t x, int16_t y, int16_t w, int16_t h,uint16_t color)
+{
+    int i,j;
+
+    if(x+w>(obj->width)||y+h>(obj->hight))return;
+    if(obj->buffer==NULL)return;
+
+    for(i=0;i<h;i++)
+    {
+        for(j=0;j<w;j++)
+        {
+            bmpc_draw_pixel(obj,x+j,y+i,color);
+        }
+    }
+}
+
 uint8_t* bmpc_init(bmpc_screen_s *obj,char * name,uint16_t width,uint16_t hight)
 {
     obj->name=name;
