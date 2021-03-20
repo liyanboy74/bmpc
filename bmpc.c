@@ -101,6 +101,16 @@ void bmpc_fill_rect(bmpc_screen_s *obj,int16_t x, int16_t y, int16_t w, int16_t 
     }
 }
 
+void bmpc_fill_screen(bmpc_screen_s *obj,uint16_t color)
+{
+    bmpc_fill_rect(obj,0,0,obj->width,obj->hight,color);
+}
+
+void bmpc_clear_screen(bmpc_screen_s *obj)
+{
+    bmpc_fill_screen(obj,0x0000);
+}
+
 uint8_t* bmpc_init(bmpc_screen_s *obj,char * name,uint16_t width,uint16_t hight)
 {
     obj->name=name;
