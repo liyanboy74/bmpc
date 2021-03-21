@@ -8,6 +8,7 @@
 #include <string.h>
 #include <stdint.h>
 #include <math.h>
+
 #include "bmp.h"
 #include "bmpc.h"
 
@@ -88,15 +89,22 @@ uint16_t bmcp_read_pixel(bmpc_screen_s *obj,uint16_t x,uint16_t y)
 void bmpc_fill_rect(bmpc_screen_s *obj,int16_t x, int16_t y, int16_t w, int16_t h,uint16_t color)
 {
     int i,j;
+    color_s c;
+    uint16_t width;
 
     if(x+w>(obj->width)||y+h>(obj->hight))return;
     if(obj->buffer==NULL)return;
+
+    width=obj->width;
+    c=convert_color_to24(color);
 
     for(i=0;i<h;i++)
     {
         for(j=0;j<w;j++)
         {
-            bmpc_draw_pixel(obj,x+j,y+i,color);
+            memcpy(obj->buffer+((y+i)*width*3)+((x+j)*3)+0,&c.b,sizeof(uint8_t));
+            memcpy(obj->buffer+((y+i)*width*3)+((x+j)*3)+1,&c.g,sizeof(uint8_t));
+            memcpy(obj->buffer+((y+i)*width*3)+((x+j)*3)+2,&c.r,sizeof(uint8_t));
         }
     }
 }
@@ -108,7 +116,7 @@ void bmpc_fill_screen(bmpc_screen_s *obj,uint16_t color)
 
 void bmpc_clear_screen(bmpc_screen_s *obj)
 {
-    bmpc_fill_screen(obj,0x0000);
+    memset(obj->buffer,0x00,obj->hight*obj->width*3);
 }
 
 uint8_t* bmpc_init(bmpc_screen_s *obj,char * name,uint16_t width,uint16_t hight)
