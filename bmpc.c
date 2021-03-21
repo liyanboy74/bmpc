@@ -43,13 +43,47 @@ color_s convert_color_to24(uint16_t color)
 	return Ret;
 }
 
-void bmpc_set_brightness(bmpc_screen_s *obj,uint8_t value)
+uint16_t convert_color(uint8_t r,uint8_t g,uint8_t b)
 {
+    uint16_t cc=0;
+
+	cc|=(((int)round((b*(float)0.1215686)))&0x1f)<<0 ;//B5
+	cc|=(((int)round((g*(float)0.2470588)))&0x3f)<<5 ;//G6
+	cc|=(((int)round((r*(float)0.1215686)))&0x1f)<<11;//R5
+
+	return cc;
 }
 
-void bmpc_draw_pixel(bmpc_screen_s *obj,uint16_t x,uint16_t y,uint16_t color)
+void bmpc_set_brightness(bmpc_screen_s *obj,uint8_t new_brightness)
 {
+    int i,j;
+    float k;
+    uint8_t old_brightness;
     color_s c;
+    uint16_t width;
+
+    if(new_brightness>100)new_brightness=100;
+
+    old_brightness=obj->brightness;
+    k=new_brightness/(float)old_brightness;
+    obj->brightness=new_brightness;
+
+    for(i=0;i<obj->hight;i++)
+    {
+        for(j=0;j<obj->width;j++)
+        {
+            c=bmcp_read_pixel_24(obj,j,i);
+            c.b*=k;
+            c.g*=k;
+            c.r*=k;
+            bmpc_draw_pixel_24(obj,j,i,c);
+        }
+    }
+
+}
+
+void bmpc_draw_pixel_24(bmpc_screen_s *obj,uint16_t x,uint16_t y,color_s color)
+{
     uint16_t width;
 
     if(x>=(obj->width)||y>=(obj->hight))return;
@@ -58,21 +92,32 @@ void bmpc_draw_pixel(bmpc_screen_s *obj,uint16_t x,uint16_t y,uint16_t color)
     //x=(obj->width-1)-x;
     y=(obj->hight-1)-y;
 
-    c=convert_color_to24(color);
     width=obj->width;
 
-    memcpy(obj->buffer+(y*width*3)+(x*3)+0,&c.b,sizeof(uint8_t));
-    memcpy(obj->buffer+(y*width*3)+(x*3)+1,&c.g,sizeof(uint8_t));
-    memcpy(obj->buffer+(y*width*3)+(x*3)+2,&c.r,sizeof(uint8_t));
+    memcpy(obj->buffer+(y*width*3)+(x*3)+0,&color.b,sizeof(uint8_t));
+    memcpy(obj->buffer+(y*width*3)+(x*3)+1,&color.g,sizeof(uint8_t));
+    memcpy(obj->buffer+(y*width*3)+(x*3)+2,&color.r,sizeof(uint8_t));
 }
 
-uint16_t bmcp_read_pixel(bmpc_screen_s *obj,uint16_t x,uint16_t y)
+void bmpc_draw_pixel_16(bmpc_screen_s *obj,uint16_t x,uint16_t y,uint16_t color)
 {
-    color_s c;
+    color_s c24;
+    c24=convert_color_to24(color);
+    bmpc_draw_pixel_24(obj,x,y,c24);
+}
+
+void bmpc_draw_pixel(bmpc_screen_s *obj,uint16_t x,uint16_t y,uint16_t color)
+{
+    bmpc_draw_pixel_16(obj,x,y,color);
+}
+
+color_s bmcp_read_pixel_24(bmpc_screen_s *obj,uint16_t x,uint16_t y)
+{
+    color_s c={0,0,0};
     uint16_t width;
 
-    if(x>=(obj->width)||y>=(obj->hight))return 0;
-    if(obj->buffer==NULL)return 0;
+    if(x>=(obj->width)||y>=(obj->hight))return c;
+    if(obj->buffer==NULL)return c;
 
     //x=(obj->width-1)-x;
     y=(obj->hight-1)-y;
@@ -83,28 +128,42 @@ uint16_t bmcp_read_pixel(bmpc_screen_s *obj,uint16_t x,uint16_t y)
     memcpy(&c.g,obj->buffer+(y*width*3)+(x*3)+1,sizeof(uint8_t));
     memcpy(&c.r,obj->buffer+(y*width*3)+(x*3)+2,sizeof(uint8_t));
 
+    return c;
+}
+
+uint16_t bmcp_read_pixel_16(bmpc_screen_s *obj,uint16_t x,uint16_t y)
+{
+    color_s c;
+    c=bmcp_read_pixel_24(obj,x,y);
     return convert_color_to16(c);
+}
+
+uint16_t bmcp_read_pixel(bmpc_screen_s *obj,uint16_t x,uint16_t y)
+{
+    return bmcp_read_pixel_16(obj,x,y);
 }
 
 void bmpc_fill_rect(bmpc_screen_s *obj,int16_t x, int16_t y, int16_t w, int16_t h,uint16_t color)
 {
     int i,j;
     color_s c;
-    uint16_t width;
+    uint16_t width,iy;
 
     if(x+w>(obj->width)||y+h>(obj->hight))return;
     if(obj->buffer==NULL)return;
 
     width=obj->width;
+    iy=(obj->hight-1)-y;
+
     c=convert_color_to24(color);
 
     for(i=0;i<h;i++)
     {
         for(j=0;j<w;j++)
         {
-            memcpy(obj->buffer+((y+i)*width*3)+((x+j)*3)+0,&c.b,sizeof(uint8_t));
-            memcpy(obj->buffer+((y+i)*width*3)+((x+j)*3)+1,&c.g,sizeof(uint8_t));
-            memcpy(obj->buffer+((y+i)*width*3)+((x+j)*3)+2,&c.r,sizeof(uint8_t));
+            memcpy(obj->buffer+((iy-i)*width*3)+((x+j)*3)+0,&c.b,sizeof(uint8_t));
+            memcpy(obj->buffer+((iy-i)*width*3)+((x+j)*3)+1,&c.g,sizeof(uint8_t));
+            memcpy(obj->buffer+((iy-i)*width*3)+((x+j)*3)+2,&c.r,sizeof(uint8_t));
         }
     }
 }
@@ -124,6 +183,7 @@ uint8_t* bmpc_init(bmpc_screen_s *obj,char * name,uint16_t width,uint16_t hight)
     obj->name=name;
     obj->width=width;
     obj->hight=hight;
+    obj->brightness=100;
     obj->buffer=(uint8_t*)calloc(width*hight*3,sizeof(uint8_t));
     memset(obj->buffer,0x00,hight*width*3);
     return obj->buffer;
