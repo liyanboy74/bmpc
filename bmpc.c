@@ -72,7 +72,7 @@ void bmpc_set_brightness(bmpc_screen_s *obj,uint8_t new_brightness)
     {
         for(j=0;j<obj->width;j++)
         {
-            c=bmcp_read_pixel_24(obj,j,i);
+            c=bmpc_read_pixel_24(obj,j,i);
             c.b*=k;
             c.g*=k;
             c.r*=k;
@@ -111,7 +111,7 @@ void bmpc_draw_pixel(bmpc_screen_s *obj,uint16_t x,uint16_t y,uint16_t color)
     bmpc_draw_pixel_16(obj,x,y,color);
 }
 
-color24_s bmcp_read_pixel_24(bmpc_screen_s *obj,uint16_t x,uint16_t y)
+color24_s bmpc_read_pixel_24(bmpc_screen_s *obj,uint16_t x,uint16_t y)
 {
     color24_s c={0,0,0};
     uint16_t width;
@@ -131,16 +131,16 @@ color24_s bmcp_read_pixel_24(bmpc_screen_s *obj,uint16_t x,uint16_t y)
     return c;
 }
 
-uint16_t bmcp_read_pixel_16(bmpc_screen_s *obj,uint16_t x,uint16_t y)
+uint16_t bmpc_read_pixel_16(bmpc_screen_s *obj,uint16_t x,uint16_t y)
 {
     color24_s c;
-    c=bmcp_read_pixel_24(obj,x,y);
+    c=bmpc_read_pixel_24(obj,x,y);
     return bmpc_convert_color_to16(c);
 }
 
-uint16_t bmcp_read_pixel(bmpc_screen_s *obj,uint16_t x,uint16_t y)
+uint16_t bmpc_read_pixel(bmpc_screen_s *obj,uint16_t x,uint16_t y)
 {
-    return bmcp_read_pixel_16(obj,x,y);
+    return bmpc_read_pixel_16(obj,x,y);
 }
 
 void bmpc_fill_rect(bmpc_screen_s *obj,int16_t x, int16_t y, int16_t w, int16_t h,uint16_t color)
@@ -208,5 +208,4 @@ void bmpc_free(bmpc_screen_s *obj)
 {
     if(obj->buffer!=NULL)free(obj->buffer);
 }
-
 
