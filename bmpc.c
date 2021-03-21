@@ -17,7 +17,7 @@ static void swap_bytes(uint16_t *color) {
     *color = (*color << 8) | temp;
 }
 
-uint16_t convert_color_to16(color_s color)
+uint16_t bmpc_convert_color_to16(color_s color)
 {
     uint16_t cc=0;
 
@@ -28,7 +28,7 @@ uint16_t convert_color_to16(color_s color)
 	return cc;
 }
 
-color_s convert_color_to24(uint16_t color)
+color_s bmpc_convert_color_to24(uint16_t color)
 {
     color_s Ret;
 
@@ -43,7 +43,7 @@ color_s convert_color_to24(uint16_t color)
 	return Ret;
 }
 
-uint16_t convert_color(uint8_t r,uint8_t g,uint8_t b)
+uint16_t bmpc_convert_color(uint8_t r,uint8_t g,uint8_t b)
 {
     uint16_t cc=0;
 
@@ -102,7 +102,7 @@ void bmpc_draw_pixel_24(bmpc_screen_s *obj,uint16_t x,uint16_t y,color_s color)
 void bmpc_draw_pixel_16(bmpc_screen_s *obj,uint16_t x,uint16_t y,uint16_t color)
 {
     color_s c24;
-    c24=convert_color_to24(color);
+    c24=bmpc_convert_color_to24(color);
     bmpc_draw_pixel_24(obj,x,y,c24);
 }
 
@@ -135,7 +135,7 @@ uint16_t bmcp_read_pixel_16(bmpc_screen_s *obj,uint16_t x,uint16_t y)
 {
     color_s c;
     c=bmcp_read_pixel_24(obj,x,y);
-    return convert_color_to16(c);
+    return bmpc_convert_color_to16(c);
 }
 
 uint16_t bmcp_read_pixel(bmpc_screen_s *obj,uint16_t x,uint16_t y)
@@ -155,7 +155,7 @@ void bmpc_fill_rect(bmpc_screen_s *obj,int16_t x, int16_t y, int16_t w, int16_t 
     width=obj->width;
     iy=(obj->hight-1)-y;
 
-    c=convert_color_to24(color);
+    c=bmpc_convert_color_to24(color);
 
     for(i=0;i<h;i++)
     {
