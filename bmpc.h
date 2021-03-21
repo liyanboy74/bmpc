@@ -6,6 +6,8 @@
 #ifndef __BMPC_H_
 #define __BMPC_H_
 
+#include <stdint.h>
+
 typedef struct{
     uint8_t b,g,r;
 }color24_s;
