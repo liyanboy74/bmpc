@@ -14,7 +14,7 @@ typedef struct bmpc_screen_t
 {
     uint8_t     *name;
     uint16_t    width;
-    uint16_t    hight;
+    uint16_t    height;
     uint8_t     *buffer;
     uint8_t     brightness;
 }bmpc_screen_s;
@@ -23,7 +23,10 @@ uint16_t    bmpc_convert_color(uint8_t r,uint8_t g,uint8_t b);
 uint16_t    bmpc_convert_color_to16(color24_s color);
 color24_s   bmpc_convert_color_to24(uint16_t color);
 
-uint8_t*    bmpc_init(bmpc_screen_s *obj,char * name,uint16_t width,uint16_t hight);
+uint8_t*    bmpc_init(bmpc_screen_s *obj,char * name,uint16_t width,uint16_t height);
+
+uint16_t    bmpc_get_height(bmpc_screen_s *obj);
+uint16_t    bmpc_get_width(bmpc_screen_s *obj);
 
 void        bmpc_draw_pixel(bmpc_screen_s *obj,uint16_t x,uint16_t y,uint16_t color);
 void        bmpc_draw_pixel_24(bmpc_screen_s *obj,uint16_t x,uint16_t y,color24_s color);

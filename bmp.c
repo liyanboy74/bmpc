@@ -74,12 +74,12 @@ unsigned char *LoadBitmapFile(char *filename, BITMAPINFOHEADER *bitmapInfoHeader
     return bitmapImage;
 }
 
-unsigned char SaveBitmap24File(char * name,uint16_t width,uint16_t hight,unsigned char * Buffer)
+unsigned char SaveBitmap24File(char * name,uint16_t width,uint16_t height,unsigned char * Buffer)
 {
     int i,j;
     uint8_t *Buf,rname[64];
     FILE *img;
-    uint32_t ImgMByte=(((width*3)+(width%4))*hight);
+    uint32_t ImgMByte=(((width*3)+(width%4))*height);
 
     BITMAPFILEHEADER info;
     memset(&info,0,sizeof(info));
@@ -93,7 +93,7 @@ unsigned char SaveBitmap24File(char * name,uint16_t width,uint16_t hight,unsigne
 
     header.biSize=0x28;
     header.biWidth=width;
-    header.biHeight=hight;
+    header.biHeight=height;
     header.biPlanes=0x01;
     header.biBitCount=24;
     header.biSizeImage=ImgMByte;
@@ -107,7 +107,7 @@ unsigned char SaveBitmap24File(char * name,uint16_t width,uint16_t hight,unsigne
     Buf=(uint8_t *)calloc(ImgMByte,sizeof(unsigned char));
     memset(Buf,0x00,ImgMByte);
 
-    for(i=0;i<hight;i++)
+    for(i=0;i<height;i++)
     {
         for(j=0;j<width;j++)
         {

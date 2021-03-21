@@ -31,6 +31,6 @@ typedef struct __attribute__((packed)) tagBITMAPINFOHEADER {
 } BITMAPINFOHEADER; // size is 40 bytes
 
 unsigned char *LoadBitmapFile(char *filename, BITMAPINFOHEADER *bitmapInfoHeader);
-unsigned char SaveBitmap24File(char * name,uint16_t width,uint16_t hight,unsigned char * Buffer);
+unsigned char SaveBitmap24File(char * name,uint16_t width,uint16_t height,unsigned char * Buffer);
 
 #endif /* __BMP_H_ */

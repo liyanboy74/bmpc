@@ -68,7 +68,7 @@ void bmpc_set_brightness(bmpc_screen_s *obj,uint8_t new_brightness)
     k=new_brightness/(float)old_brightness;
     obj->brightness=new_brightness;
 
-    for(i=0;i<obj->hight;i++)
+    for(i=0;i<obj->height;i++)
     {
         for(j=0;j<obj->width;j++)
         {
@@ -86,11 +86,11 @@ void bmpc_draw_pixel_24(bmpc_screen_s *obj,uint16_t x,uint16_t y,color24_s color
 {
     uint16_t width;
 
-    if(x>=(obj->width)||y>=(obj->hight))return;
+    if(x>=(obj->width)||y>=(obj->height))return;
     if(obj->buffer==NULL)return;
 
     //x=(obj->width-1)-x;
-    y=(obj->hight-1)-y;
+    y=(obj->height-1)-y;
 
     width=obj->width;
 
@@ -116,11 +116,11 @@ color24_s bmcp_read_pixel_24(bmpc_screen_s *obj,uint16_t x,uint16_t y)
     color24_s c={0,0,0};
     uint16_t width;
 
-    if(x>=(obj->width)||y>=(obj->hight))return c;
+    if(x>=(obj->width)||y>=(obj->height))return c;
     if(obj->buffer==NULL)return c;
 
     //x=(obj->width-1)-x;
-    y=(obj->hight-1)-y;
+    y=(obj->height-1)-y;
 
     width=obj->width;
 
@@ -149,11 +149,11 @@ void bmpc_fill_rect(bmpc_screen_s *obj,int16_t x, int16_t y, int16_t w, int16_t 
     color24_s c;
     uint16_t width,iy;
 
-    if(x+w>(obj->width)||y+h>(obj->hight))return;
+    if(x+w>(obj->width)||y+h>(obj->height))return;
     if(obj->buffer==NULL)return;
 
     width=obj->width;
-    iy=(obj->hight-1)-y;
+    iy=(obj->height-1)-y;
 
     c=bmpc_convert_color_to24(color);
 
@@ -170,28 +170,38 @@ void bmpc_fill_rect(bmpc_screen_s *obj,int16_t x, int16_t y, int16_t w, int16_t 
 
 void bmpc_fill_screen(bmpc_screen_s *obj,uint16_t color)
 {
-    bmpc_fill_rect(obj,0,0,obj->width,obj->hight,color);
+    bmpc_fill_rect(obj,0,0,obj->width,obj->height,color);
 }
 
 void bmpc_clear_screen(bmpc_screen_s *obj)
 {
-    memset(obj->buffer,0x00,obj->hight*obj->width*3);
+    memset(obj->buffer,0x00,obj->height*obj->width*3);
 }
 
-uint8_t* bmpc_init(bmpc_screen_s *obj,char * name,uint16_t width,uint16_t hight)
+uint8_t* bmpc_init(bmpc_screen_s *obj,char * name,uint16_t width,uint16_t height)
 {
     obj->name=name;
     obj->width=width;
-    obj->hight=hight;
+    obj->height=height;
     obj->brightness=100;
-    obj->buffer=(uint8_t*)calloc(width*hight*3,sizeof(uint8_t));
-    memset(obj->buffer,0x00,hight*width*3);
+    obj->buffer=(uint8_t*)calloc(width*height*3,sizeof(uint8_t));
+    memset(obj->buffer,0x00,height*width*3);
     return obj->buffer;
+}
+
+uint16_t bmpc_get_height(bmpc_screen_s *obj)
+{
+    return obj->height;
+}
+
+uint16_t bmpc_get_width(bmpc_screen_s *obj)
+{
+    return obj->width;
 }
 
 void bmpc_update(bmpc_screen_s *obj)
 {
-    SaveBitmap24File(obj->name,obj->width,obj->hight,obj->buffer);
+    SaveBitmap24File(obj->name,obj->width,obj->height,obj->buffer);
 }
 
 void bmpc_free(bmpc_screen_s *obj)
