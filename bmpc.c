@@ -12,11 +12,6 @@
 #include "bmp.h"
 #include "bmpc.h"
 
-static void swap_bytes(uint16_t *color) {
-    uint8_t temp = *color >> 8;
-    *color = (*color << 8) | temp;
-}
-
 uint16_t bmpc_convert_color_to16(color24_s color)
 {
     uint16_t cc=0;
@@ -60,7 +55,6 @@ void bmpc_set_brightness(bmpc_screen_s *obj,uint8_t new_brightness)
     float k;
     uint8_t old_brightness;
     color24_s c;
-    uint16_t width;
 
     if(new_brightness>100)new_brightness=100;
 

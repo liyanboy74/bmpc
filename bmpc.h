@@ -14,7 +14,7 @@ typedef struct{
 
 typedef struct bmpc_screen_t
 {
-    uint8_t     *name;
+    char        *name;
     uint16_t    width;
     uint16_t    height;
     uint8_t     *buffer;
