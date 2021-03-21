@@ -7,7 +7,7 @@ In microcontroller programming, if you've worked with LCDs, you know that the co
 **BMPC** Written in C by standard libraries.
 This library simply saves frames in BMP-24 windows format with any dimensions. For more flexibility, the execution of files is entrusted to other software. 
 
-It is recommended to use [ImageGlass](https://imageglass.org/) for open `.pmp` file.
+It is recommended to use [ImageGlass](https://imageglass.org/) for open `.bmp` file.
 
 ##### Example:
 
