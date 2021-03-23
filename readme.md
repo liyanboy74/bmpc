@@ -8,8 +8,10 @@ In microcontroller programming, if you've worked with LCDs, you know that the co
 This library simply saves frames in BMP-24 windows format with any dimensions. For more flexibility, the execution of files is entrusted to other software. 
 
 It is recommended to use [ImageGlass](https://imageglass.org/) for open `.bmp` file.
+### Clone
+	git clone --recursive https://github.com/liyanboy74/bmpc.git
 
-##### Example:
+### Example:
 
 ```c
 #include <stdio.h>
@@ -19,42 +21,20 @@ It is recommended to use [ImageGlass](https://imageglass.org/) for open `.bmp` f
 
 #include "bmpc.h"
 
-bmpc_screen_s Screen1;
+bmpc_screen_s Screen;
 
 int main(int argc, char** argv)
 {
-    bmpc_init(&Screen1,"Screen1",500,500);
-    
-    bmpc_fill_screen(&Screen1,0x001F);
-    bmpc_fill_rect(&Screen1,100,100,300,300,0xFFE0);
-    
-    bmpc_update(&Screen1);
+    bmpc_init(&Screen,"Screen",500,500);
+
+    bmpc_fill_screen(&Screen,color_s(0,255,0));
+    bmpc_fill_rect(&Screen,100,100,300,300,color_s(0,0,255));
+    bmpc_set_brightness(&Screen,80);
+
+    bmpc_update(&Screen);
 }
 ```
-#### Higher layer 
+### Higher layer 
 
 You can use [Dispcolor](https://github.com/liyanboy74/dispcolor) for more functions. 
 
-##### Example using Dispcolor:
-
-```c
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <stdint.h>
-
-#include "dispcolor.h"
-#include "compas.h"
-
-int main(int argc, char** argv)
-{
-    dispcolor_Init(240,240);
-
-    while(1)
-    {
-        DrawCompas(1);
-        dispcolor_Update();
-        _sleep(150);
-    }
-}
-```

@@ -1,0 +1,6 @@
+[submodule "color"]
+	path = color
+	url = https://github.com/liyanboy74/color.git
+[submodule "bmp"]
+	path = bmp
+	url = https://github.com/liyanboy74/bmp.git
