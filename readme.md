@@ -17,7 +17,7 @@ It is recommended to use [ImageGlass](https://imageglass.org/) for open `.bmp` f
 - [animated](./examples/animated.c)
 
 ### Compile & Run
-	gcc examples/example.c bmpc.c bmp/bmp.c color/color.c -I. -Ibmp -Icolor -orun
+	gcc examples/example.c bmpc.c bmp/bmp.c color/color.c -I. -Ibmp -Icolor -orun -lm
 	./run
 
 ### Higher layer 
