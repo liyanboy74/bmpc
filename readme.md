@@ -16,9 +16,13 @@ It is recommended to use [ImageGlass](https://imageglass.org/) for open `.bmp` f
 - [multi-frame](./examples/multi-frame.c)
 - [animated](./examples/animated.c)
 
-### Compile & Run
-	gcc examples/example.c bmpc.c bmp/bmp.c color/color.c -I. -Ibmp -Icolor -orun -lm
-	./run
+### Compile
+	cd bmpc
+	mkdir build
+	cd build
+	cmake ..
+	cmake --build .
+for install use `cmake --install .`
 
 ### Higher layer 
 
