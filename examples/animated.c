@@ -24,7 +24,7 @@ int main(int argc, char** argv)
 
     for(i=1;i<=100;i++)
     {
-        bmpc_fill_rect(&Screen,0,0,i,i,RED);
+        bmpc_fill_rect(&Screen,0,0,i,i,COLOR_RED);
         bmpc_update(&Screen);
         delay(100);
     }

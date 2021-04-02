@@ -17,7 +17,7 @@ int main(int argc, char** argv)
         sprintf(Buf,"frame-%d",i);
         bmpc_init(&Screen,Buf,100,100);
 
-        bmpc_fill_rect(&Screen,0,0,i*10,i*10,RED);
+        bmpc_fill_rect(&Screen,0,0,i*10,i*10,COLOR_RED);
 
         bmpc_update(&Screen);
         bmpc_free(&Screen);
