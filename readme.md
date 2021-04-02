@@ -11,29 +11,15 @@ It is recommended to use [ImageGlass](https://imageglass.org/) for open `.bmp` f
 ### Clone
 	git clone --recursive https://github.com/liyanboy74/bmpc.git
 
-### Example:
+### Example
+- [one-frame](./examples/one-frame.c)
+- [multi-frame](./examples/multi-frame.c)
+- [animated](./examples/animated.c)
 
-```c
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <stdint.h>
+### Compile & Run
+	gcc examples/example.c bmpc.c bmp/bmp.c color/color.c -I. -Ibmp -Icolor -orun
+	./run
 
-#include "bmpc.h"
-
-bmpc_screen_s Screen;
-
-int main(int argc, char** argv)
-{
-    bmpc_init(&Screen,"Screen",500,500);
-
-    bmpc_fill_screen(&Screen,color_s(0,255,0));
-    bmpc_fill_rect(&Screen,100,100,300,300,color_s(0,0,255));
-    bmpc_set_brightness(&Screen,80);
-
-    bmpc_update(&Screen);
-}
-```
 ### Higher layer 
 
 You can use [Dispcolor](https://github.com/liyanboy74/dispcolor) for more functions. 
