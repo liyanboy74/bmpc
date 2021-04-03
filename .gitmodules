@@ -4,3 +4,6 @@
 [submodule "bmp"]
 	path = bmp
 	url = https://github.com/liyanboy74/bmp.git
+[submodule "dispcolor"]
+	path = dispcolor
+	url = https://github.com/liyanboy74/dispcolor.git
