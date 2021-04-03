@@ -22,8 +22,6 @@ It is recommended to use [ImageGlass](https://imageglass.org/) for open `.bmp` f
 	cd build
 	cmake ..
 	cmake --build .
-for install use `cmake --install .`
-
 ### Higher layer 
 
 You can use [Dispcolor](https://github.com/liyanboy74/dispcolor) for more functions. 
