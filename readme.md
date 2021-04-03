@@ -20,8 +20,8 @@ It is recommended to use [ImageGlass](https://imageglass.org/) for open `.bmp` f
 	cd bmpc
 	mkdir build
 	cd build
-	cmake ..
-	cmake --build .
+	cmake -G Ninja ..
+	Ninja
 ### Higher layer 
 
 You can use [Dispcolor](https://github.com/liyanboy74/dispcolor) for more functions. 
