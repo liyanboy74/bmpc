@@ -23,6 +23,3 @@ It is recommended to use [ImageGlass](https://imageglass.org/) for open `.bmp` f
 	cd build
 	cmake -G Ninja ..
 	Ninja
-
-### Note:
-for use **Dispcolor** don't forget read `readme.md` and edit main `CMakelists.txt` file.
