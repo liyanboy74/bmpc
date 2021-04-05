@@ -19,7 +19,6 @@ It is recommended to use [ImageGlass](https://imageglass.org/) for open `.bmp` f
 
 ### Compile
 	cd bmpc
-	mkdir build
-	cd build
+	mkdir build && cd build
 	cmake -G Ninja ..
 	Ninja
